@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>JS Bin</title>
+  <style>
+  
+  #your-files{
+  width: 100px;
+  height: 100px;
+border: 1px solid #000;  
+}
+
+  </style>
+<link rel="stylesheet" type="text/css" href="css/chartStyle.css" media="all" />
+  <script src="js/d3.v3.min.js"></script>
+<script src="js/chart.js"></script>
+</head>
+
+<body>
+  <div id="your-files">
+    请您直接拖拽文件进入或者上传数据文件
+  </div>
+  
+  <input id="upload" type="file" multiple="true" />
+<script>
+
+
+var list=[
+{title:'chord弦图',img:'.123','option':[{box:'text',color:'color',w:'text',h:'text'}]},
+{title:'饼图',img:'.123','option':[{box:'text',color:'color',w:'text',h:'text'}]},
+{title:'面积图',img:'.123','option':[{box:'text',color:'color',w:'text',h:'text'}]},
+{title:'柱状图',img:'.123','option':[{box:'text',color:'color',w:'text',h:'text'}]},
+
+]
+
+
+
+var target = document.getElementById("your-files");
+ 
+target.addEventListener("dragover", function(event) {
+    event.preventDefault();
+}, false);
+ 
+target.addEventListener("drop", function(event) {
+ 
+    // cancel default actions
+    event.preventDefault();
+ 
+    var i = 0,
+        files = event.dataTransfer.files,
+        len = files.length;
+ 
+    for (; i < len; i++) {
+        console.log("Filename: " + files[i].name);
+        console.log("Type: " + files[i].type);
+        console.log("Size: " + files[i].size + " bytes");
+		readFile(files[i],'text')
+    }
+ 
+}, false);
+  
+  function readFile(f, type) {
+  	var reader = new FileReader(); //实例化文件读取器
+  	reader.onload = function (evt) { //开始异步读取
+  		var data = handleCsv(evt.target.result);
+		console.log(data)
+		madeChord(data)
+  	}
+  	var readType = {
+  		text : 'readAsText',
+  		binary : 'readAsBinaryString',
+  		arrayBuffer : 'readAsArrayBuffer',
+  		dataUrl : 'readAsDataURL',
+  	}
+  	reader[readType[type]](f)
+  }
+
+  function handleCsv(text){
+  var arr = [],i=0,cut = text.split('\n');
+  var l =cut.length;
+  for(;i<l;i++){
+  arr.push(numberizeStringArray(cut[i].split(',')))
+  }
+  return arr
+  }
+  function numberizeStringArray(arr){
+  var i = 0,l = arr.length,back = [];
+  for(;i<l;i++){
+  back.push(Number(arr[i]));
+  
+  
+  }
+  return back
+  }
+var control = document.getElementById("upload");
+control.addEventListener("change", function(event) {
+ 
+    var j = 0,
+        f = control.files,
+        l = f.length;
+ 
+    for (; j < l; j++) {
+        console.log("Filename: " + f[j].name);
+        console.log("Type: " + f[j].type);
+        console.log("Size: " + f[j].size + " bytes");
+    }
+ 
+}, false);
+
+
+
+
+</script>
+</body>
+</html>
