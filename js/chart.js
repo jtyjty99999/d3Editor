@@ -2,6 +2,7 @@
 
 function madeChord(data,option){
 var option = option || {
+box:'body',
 color:["#000000", "#FFDD89", "#957244", "#F26223"],
 w:960,
 h:500
